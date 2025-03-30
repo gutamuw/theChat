@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Welcome to the Home Page</h1>
+      <p>This is a simple home page.</p>
+      <button id="logout">Logout</button>
+
+      <section id="chatSection">
+        <h2>Chat Section</h2>
+        <div id="roomBtns"></div>
+        <div id="chatContainer" style="display: none">
+          <form action="" id="messageForm">
+            <input
+              type="text"
+              id="messageInput"
+              placeholder="Type a message..."
+            />
+            <button id="sendMessage">Send</button>
+          </form>
+          <div id="messages"></div>
+        </div>
+      </section>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
