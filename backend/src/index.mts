@@ -1,11 +1,12 @@
 import express, { json } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { registerRouter } from "../routes/registerRoute.mjs";
-import { loginRouter } from "../routes/loginRoute.mjs";
 import cookieParser from "cookie-parser";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
+import { registerRouter } from "./routes/registerRoute.mjs";
+import { loginRouter } from "./routes/loginRoute.mjs";
+import { auth } from "./middlewares/auth.mjs";
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use(cookieParser());
 
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
+
+app.use(auth)
 
 const rooms = ["Animals", "Food", "Sports"];
 

@@ -22,5 +22,11 @@ form.addEventListener("submit", async (e) => {
       withCredentials: true,
     }
   );
+  if(response.status === 200) {
+    alert("User created, you will be redirected to login page");
+    location.href = "login.html";
+  } else {
+    alert("Something went wrong, try again");
+  }
   console.log(response.data);
 });

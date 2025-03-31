@@ -35,8 +35,14 @@ socket.on("roomList", (rooms: string[]) => {
 
       roomBtn.addEventListener("click", () => {
         selectedRoom = room;
+        const currentRoomTitle = document.getElementById(
+          "currentRoomTitle") as HTMLHeadingElement;
+
+          currentRoomTitle.innerHTML = `You've entered the chat: ${room}`;
+
         socket.emit("joinRoom", room);
         roomBtns.remove();
+        
         const chatInput = document.getElementById(
           "chatContainer"
         ) as HTMLDivElement;
