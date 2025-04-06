@@ -38,5 +38,3 @@ To start the frontend, follow these steps:
 
 Have fun!
 ```
-
-This README includes a brief description of your project, instructions for setting up the backend and frontend, and some basic info about your app. Let me know if you want to add more details!
