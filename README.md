@@ -35,5 +35,3 @@ To start the frontend, follow these steps:
    ```
 
 ## Enjoy chatting! 🎉
-
-Have fun!
