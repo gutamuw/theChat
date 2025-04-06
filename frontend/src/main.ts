@@ -1,3 +1,5 @@
+import { createMessageHtml } from "./helpers/createHtml";
+import { Chat, Message } from "./models/Chat";
 import "./style.css";
 import { io } from "socket.io-client";
 
@@ -24,25 +26,25 @@ socket.on("message", (message) => {
 
 export let selectedRoom = "";
 
-socket.on("roomList", (rooms: string[]) => {
+socket.on("chatList", (chats: Chat[]) => {
   const roomBtns = document.getElementById("roomBtns");
   if (roomBtns) {
     roomBtns.innerHTML = "";
-    rooms.forEach((room) => {
+    chats.forEach((chat) => {
       const roomBtn = document.createElement("button");
-      roomBtn.innerHTML = room;
+      roomBtn.innerHTML = chat.name;
       roomBtns.appendChild(roomBtn);
 
       roomBtn.addEventListener("click", () => {
-        selectedRoom = room;
+        selectedRoom = chat.name;
         const currentRoomTitle = document.getElementById(
-          "currentRoomTitle") as HTMLHeadingElement;
+          "currentRoomTitle"
+        ) as HTMLHeadingElement;
+        currentRoomTitle.innerHTML = `You've entered the chat: ${chat.name}`;
 
-          currentRoomTitle.innerHTML = `You've entered the chat: ${room}`;
-
-        socket.emit("joinRoom", room);
+        socket.emit("joinRoom", chat.name);
         roomBtns.remove();
-        
+
         const chatInput = document.getElementById(
           "chatContainer"
         ) as HTMLDivElement;
@@ -52,6 +54,18 @@ socket.on("roomList", (rooms: string[]) => {
   }
 });
 
+socket.on("roomMessages", (messages: Message[]) => {
+  const messagesContainer = document.getElementById(
+    "messages"
+  ) as HTMLDivElement;
+  messagesContainer.innerHTML = "";
+
+  messages.forEach((message) => {
+    const messageHtml = createMessageHtml(message);
+    messagesContainer.appendChild(messageHtml);
+  });
+});
+
 document.getElementById("messageForm")?.addEventListener("submit", (e) => {
   e.preventDefault();
   const theMessage = (
@@ -59,10 +73,11 @@ document.getElementById("messageForm")?.addEventListener("submit", (e) => {
   ).value;
 
   socket.emit("sendChatMessage", theMessage, selectedRoom);
+
+  (document.getElementById("messageInput") as HTMLInputElement).value = "";
 });
 
-socket.on("receivedChatMessage", (theMessage: string) => {
-  const message = document.createElement("p");
-  message.innerHTML = theMessage;
+socket.on("receivedChatMessage", (theMessage: Message) => {
+  const message = createMessageHtml(theMessage);
   document.getElementById("messages")?.appendChild(message);
 });
